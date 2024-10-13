@@ -1,0 +1,1 @@
+# It signals to Python that the directory it's in should be treated as a package. This means that the directory can be imported like a module. For instance, if you have a directory named loaders with an __init__.py file inside it, you can import code from files within this directory using statements like from loaders import some_module.
