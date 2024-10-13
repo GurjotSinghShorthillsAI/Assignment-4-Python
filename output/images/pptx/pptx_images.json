@@ -1,0 +1,20 @@
+[
+    {
+        "slide_number": 1,
+        "image_filename": "pptx_image_1_6.jpg",
+        "image_format": "jpg",
+        "image_path": "output/images/pptx/pptx_image_1_6.jpg"
+    },
+    {
+        "slide_number": 2,
+        "image_filename": "pptx_image_2_6.jpg",
+        "image_format": "jpg",
+        "image_path": "output/images/pptx/pptx_image_2_6.jpg"
+    },
+    {
+        "slide_number": 3,
+        "image_filename": "pptx_image_3_6.jpg",
+        "image_format": "jpg",
+        "image_path": "output/images/pptx/pptx_image_3_6.jpg"
+    }
+]

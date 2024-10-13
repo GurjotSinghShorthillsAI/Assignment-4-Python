@@ -1,0 +1,17 @@
+[
+    {
+        "image_filename": "docx_image_1.jpeg",
+        "image_format": "jpeg",
+        "image_path": "output/images/docx/docx_image_1.jpeg"
+    },
+    {
+        "image_filename": "docx_image_2.jpeg",
+        "image_format": "jpeg",
+        "image_path": "output/images/docx/docx_image_2.jpeg"
+    },
+    {
+        "image_filename": "docx_image_3.jpeg",
+        "image_format": "jpeg",
+        "image_path": "output/images/docx/docx_image_3.jpeg"
+    }
+]

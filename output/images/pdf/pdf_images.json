@@ -1,0 +1,20 @@
+[
+    {
+        "page_number": 1,
+        "image_filename": "pdf_image_1_1.jpeg",
+        "image_format": "jpeg",
+        "image_path": "output/images/pdf/pdf_image_1_1.jpeg"
+    },
+    {
+        "page_number": 2,
+        "image_filename": "pdf_image_2_1.jpeg",
+        "image_format": "jpeg",
+        "image_path": "output/images/pdf/pdf_image_2_1.jpeg"
+    },
+    {
+        "page_number": 3,
+        "image_filename": "pdf_image_3_1.jpeg",
+        "image_format": "jpeg",
+        "image_path": "output/images/pdf/pdf_image_3_1.jpeg"
+    }
+]

@@ -1,0 +1,17 @@
+[
+    {
+        "slide_number": 1,
+        "linked_text": "Wikipedia about Data Analytics",
+        "link": "https://en.wikipedia.org/wiki/Data_analysis"
+    },
+    {
+        "slide_number": 2,
+        "linked_text": "Python Official Website",
+        "link": "https://www.python.org/"
+    },
+    {
+        "slide_number": 3,
+        "linked_text": "IBM Data Analytics",
+        "link": "https://www.ibm.com/analytics"
+    }
+]
