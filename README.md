@@ -54,21 +54,16 @@ DB_NAME=your_database
 python main.py
 ```
 - The extracted data will be saved in the output/ folder and organized into subfolders based on file type (PDF, DOCX, PPTX). Additionally, data will be stored in the MySQL database if configured correctly.
+- To change the files you want to extract data from, put your file in `test_files` folder in the intended folder, and change the path in `main.py` and run the code!
 ## Manual Testing
 Test cases have been manually prepared and provided in the Excel file and can be tested with different file types and scenarios:
-- PDF: Small, large, corrupted PDFs.
-- DOCX: Small, large, corrupted DOCX files.
-- PPTX: Small, large, corrupted PPTX files.
+- PDF: Small, large, corrupted, annotated, and multilingual PDFs.
+- DOCX: Small, large, corrupted annotated, and multilingual DOCX files.
+- PPTX: Small, large, corrupted annotated, and multilingual PPTX files.
 Please refer to the `test_files/` folder for these files.
 ## Unit Testing
-Unit tests are planned to cover the following aspects:
-- File validation and loading
-- Text extraction
-- Hyperlink extraction
-- Image Extraction
-- Table extraction
-- MySQL data storage
+I automated some of the manual test cases using `pytest`. So most of the file loading and validation logic is handled by automated tests.
 To run unit tests:
 ```
-pytest tests/test_extractor.py
+pytest tests/test_extractor.py -v
 ```
