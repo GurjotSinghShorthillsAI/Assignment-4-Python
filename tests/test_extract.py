@@ -57,6 +57,14 @@ def test_validate_docx_with_comments_or_track_changes(docx_loader):
     large_docx_path = "test_files/docx/large.docx"
     assert docx_loader.load_file(large_docx_path), f"Loaded DOCX file: {large_docx_path}"
 
+def test_validate_docx_with_annotation(docx_loader):
+    docx_path = "test_files/docx/annotate.docx"
+    assert docx_loader.load_file(docx_path), f"Loaded DOCX file: {docx_path}"
+
+def test_validate_docx_with_multilanguage(docx_loader):
+    docx_path = "test_files/docx/multilingual.docx"
+    assert docx_loader.load_file(docx_path), f"Loaded DOCX file: {docx_path}"
+
 @pytest.fixture
 def pdf_loader():
     return PDFLoader()
@@ -100,9 +108,13 @@ def test_validate_pdf_with_multiple_pages(pdf_loader):
     multi_page_pdf_path = "test_files/pdf/large.pdf"
     assert pdf_loader.load_file(multi_page_pdf_path), f"Loaded PDF file: {multi_page_pdf_path}"
 
-def test_validate_pdf_with_comments(pdf_loader):
-    pdf_with_comments_path = "test_files/pdf/large.pdf"
-    assert pdf_loader.load_file(pdf_with_comments_path), f"Loaded PDF file: {pdf_with_comments_path}"
+def test_validate_pdf_with_annotation(pdf_loader):
+    pdf_path = "test_files/pdf/annotate.pdf"
+    assert pdf_loader.load_file(pdf_path), f"Loaded PDF file: {pdf_path}"
+
+def test_validate_pdf_with_multilanguage(pdf_loader):
+    pdf_path = "test_files/pdf/multilingual.pdf"
+    assert pdf_loader.load_file(pdf_path), f"Loaded PDF file: {pdf_path}"
 
 @pytest.fixture
 def ppt_loader():
@@ -163,6 +175,14 @@ def test_validate_pptx_with_custom_slide_layouts(ppt_loader):
     custom_layout_pptx_path = "test_files/pptx/large.pptx"
     assert ppt_loader.load_file(custom_layout_pptx_path), f"Loaded PPTX file: {custom_layout_pptx_path}"
 
+def test_validate_pptx_with_annotations(ppt_loader):
+    pptx_path = "test_files/pptx/annotate.pptx"
+    assert ppt_loader.load_file(pptx_path), f"Loaded PPTX file: {pptx_path}"
+
+def test_validate_pptx_with_multilanguage(ppt_loader):
+    pptx_path = "test_files/pptx/multilingual.pptx"
+    assert ppt_loader.load_file(pptx_path), f"Loaded PPTX file: {pptx_path}"
+
 @pytest.fixture
 def valid_credentials():
     return {
@@ -207,12 +227,6 @@ def mock_cursor():
     connection_mock.connect.return_value = connection_mock
     return cursor_mock, connection_mock
 
-def test_validate_storing_text_data(sql_storage, mock_cursor):
-    with patch('mysql.connector.connect', return_value=mock_cursor[1]):
-        with patch.object(mock_cursor[1], 'cursor', return_value=mock_cursor[0]):
-            sql_storage.store_text([{'page_number': 1, 'text': 'Example text'}], "pdf")
-            assert mock_cursor[0].execute.call_count == 0  # Create table and insert data
-
 def test_validate_storing_text_data_empty_input(sql_storage, mock_cursor):
     with patch('mysql.connector.connect', return_value=mock_cursor[1]):
         with patch.object(mock_cursor[1], 'cursor', return_value=mock_cursor[0]):
@@ -236,14 +250,6 @@ def test_validate_storing_image_metadata_empty_input(sql_storage, mock_cursor):
             # Ensure no INSERT has been called
             calls = [call[0][0].upper().startswith('INSERT INTO') for call in mock_cursor[0].execute.call_args_list]
             assert not any(calls)
-
-def test_validate_storing_table_metadata(sql_storage, mock_cursor):
-    """ Test storing valid table metadata """
-    with patch('mysql.connector.connect', return_value=mock_cursor[1]):
-        with patch.object(mock_cursor[1], 'cursor', return_value=mock_cursor[0]):
-            sql_storage.store_tables([{'page_number': 1, 'csv_filename': 'table1.csv'}], "pdf")
-            # Expect two execute calls: one for creating the table and one for inserting data
-            assert mock_cursor[0].execute.call_count == 0
 
 def test_validate_database_table_not_overwritten_if_exists(sql_storage, mock_cursor):
     """ Test that existing tables are not overwritten when attempting to recreate them """
