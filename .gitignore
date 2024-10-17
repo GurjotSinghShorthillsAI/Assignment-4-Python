@@ -1,0 +1,19 @@
+# Ignore the virtual environment folder
+env/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Log files
+*.log
+
+# Ignore VS Code specific folder (if you're using it)
+.vscode/
+
+# Ignore OS-specific files (e.g., macOS)
+.DS_Store
+
+# Ignore config files
+config.env
