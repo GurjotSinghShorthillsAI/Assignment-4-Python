@@ -1,43 +1,39 @@
+from .file_loader import FileLoader
 from pptx import Presentation
-from loaders.file_loader import FileLoader
 import logging
-import sys  # Import sys for using sys.exit()
+import sys
 
 class PPTLoader(FileLoader):
     """
-    Concrete implementation of FileLoader for handling PPTX files.
+    Loader class for PPTX files, inheriting from the FileLoader abstract base class.
+    Handles the specifics of validating and loading PowerPoint (PPTX) files.
+
+    Attributes:
+        file_extension (str): The file extension this loader handles, specifically set to '.pptx'.
     """
 
-    def validate_file(self, filepath):
+    file_extension = '.pptx'
+
+    def load_file(self, filepath: str):
         """
-        Validates that the specified file path ends with '.pptx'.
+        Validates and loads a PPTX file. If the file is valid, it opens and returns a Presentation object
+        for further manipulation. Errors during the file opening are caught and logged, leading to termination
+        of the process.
 
         Args:
-        filepath (str): The path to the file to validate.
+            filepath (str): The path to the PPTX file that needs to be loaded.
+
+        Returns:
+            Presentation: A Presentation object from the python-pptx library that represents the loaded PPTX file.
 
         Raises:
-        ValueError: If the file extension is not .pptx.
+            SystemExit: If the PPTX file cannot be opened or read, the process will stop after logging the error.
         """
-        if not filepath.lower().endswith('.pptx'):
-            logging.error(f"Invalid file format for PPT loader: {filepath}")
-            sys.exit(f"Stopping the process due to invalid file format for PPT loader: {filepath}")
-
-    def load_file(self, filepath):
-        """
-        Loads a PPTX file and returns a Presentation object.
-
-        Args:
-        filepath (str): The path to the file to load.
-
-        Raises:
-        IOError: If the file cannot be opened or read.
-        """
-        try:
-            self.validate_file(filepath)
-            ppt = Presentation(filepath)
-            print(f"Loaded PPTX file: {filepath}")
-            return ppt
-        except Exception as e:
-            logging.error(f"Unable to open or read the PPT file due to corruption or other issues: {e}")
-            sys.exit(f"Stopping the process due to a critical error with the file: {filepath}")
-
+        if self.validate_file(filepath):  # Utilizes the inherited validate_file method to check file extension.
+            try:
+                ppt = Presentation(filepath)  # Attempts to open and read the PPTX file.
+                print(f"Loaded PPTX file: {filepath}")
+                return ppt
+            except Exception as e:
+                logging.error(f"Unable to open or read the PPT file: {e}")
+                sys.exit(f"Stopping the process due to a critical error with the PPT file: {filepath}")

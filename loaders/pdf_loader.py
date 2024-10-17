@@ -1,50 +1,37 @@
-import sys
+from .file_loader import FileLoader
 from PyPDF2 import PdfReader
-from loaders.file_loader import FileLoader
+import sys
 
 class PDFLoader(FileLoader):
     """
-    A class to load PDF files, ensuring they meet basic format requirements.
-    Extends the FileLoader abstract base class to handle PDF-specific loading operations.
+    Loader class for PDF files, inheriting from the FileLoader abstract base class.
+    Handles the specifics of validating and loading PDF files.
+
+    Attributes:
+        file_extension (str): The file extension this loader handles, set to '.pdf'.
     """
 
-    def validate_file(self, filepath):
-        """
-        Validates that the specified file path ends with '.pdf' to ensure it's a PDF file.
-        
-        Args:
-            filepath (str): The path to the file that needs validation.
-        
-        Raises:
-            ValueError: If the file extension is not .pdf.
-        """
-        # Check if the file's extension is '.pdf'
-        if not filepath.lower().endswith('.pdf'):
-            sys.exit(f"Invalid file format. Expected a PDF file.")
-            raise ValueError("Invalid file format. Expected a PDF file.")
-        print(f"Validated PDF file: {filepath}")
+    file_extension = '.pdf'
 
-    def load_file(self, filepath):
+    def load_file(self, filepath: str):
         """
-        Loads the PDF file and returns a PdfReader object that allows further manipulation
-        and data extraction from the PDF.
-        
+        Validates and loads a PDF file. If the file is valid, it opens and returns a PdfReader object
+        for further manipulation. If there are issues opening the file, the process is terminated.
+
         Args:
-            filepath (str): The path to the file that needs to be loaded.
-        
+            filepath (str): The path to the PDF file that needs to be loaded.
+
         Returns:
-            PdfReader: An object that represents the opened PDF file.
+            PdfReader: A PdfReader object from the PyPDF2 library that represents the loaded PDF file.
+
+        Raises:
+            SystemExit: If the PDF file cannot be opened or read due to corruption or other issues, the process
+                        will stop after logging the error.
         """
-        # Validate the file to ensure it is a PDF
-        try:
-            self.validate_file(filepath)
-            reader = PdfReader(filepath)
-            print(f"Loaded PDF file: {filepath}")
-            return reader
-            # Return the PdfReader object for potential further processing outside this method
-        except:
-            sys.exit(f"Unable to open or read the PDF file due to corruption or other issues")
-        
-        
-        
-        
+        if self.validate_file(filepath):  # Utilizes the validate_file method from the abstract base class.
+            try:
+                reader = PdfReader(filepath)  # Attempts to open and read the PDF file.
+                print(f"Loaded PDF file: {filepath}")
+                return reader
+            except Exception:
+                sys.exit(f"Unable to open or read the PDF file due to corruption or other issues")

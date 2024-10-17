@@ -1,34 +1,51 @@
 from abc import ABC, abstractmethod
+import sys
+import logging
 
 class FileLoader(ABC):
     """
-    Abstract base class for file loaders. This class serves as a template for 
-    file-type specific loaders like PDF, DOCX, and PPT. Each subclass must implement
-    the methods to validate and load files according to their specific formats.
+    Abstract base class for file loaders. Implements common file validation logic and
+    requires subclasses to define specific file loading behaviors.
+
+    Attributes:
+        file_extension (str): Expected file extension, set by subclasses.
     """
 
-    @abstractmethod
+    file_extension = ""
+
     def validate_file(self, filepath: str) -> bool:
         """
-        Validates the file to ensure it is of a correct format.
+        Validates that the file has the correct extension, stopping the process if invalid.
 
         Args:
-        filepath (str): The path to the file that needs validation.
+            filepath (str): The file path to validate.
 
         Returns:
-        bool: True if the file is valid, False otherwise.
+            bool: True if the file is valid.
+
+        Raises:
+            SystemExit: If the file extension is incorrect, logs the error and exits.
         """
-        pass
+        if not filepath.lower().endswith(self.file_extension):
+            logging.error(f"Invalid file format: {filepath}")
+            sys.exit(f"Invalid format stopped process: {filepath}")
+        print(f"File validated: {filepath}")
+        return True
 
     @abstractmethod
     def load_file(self, filepath: str):
         """
-        Loads the file and returns its contents for further processing.
+        Loads the file and returns its content. Must be implemented by subclasses.
 
         Args:
-        filepath (str): The path to the file that needs to be loaded.
+            filepath (str): The file path to load.
 
-        Returns:
-        object: The loaded file content, the specific type depends on the file format.
+        Raises:
+            NotImplementedError: If the subclass does not implement this method.
         """
+        raise NotImplementedError("Load method not implemented.")
+
+
+    @abstractmethod
+    def load_file(self, filepath: str):
         pass

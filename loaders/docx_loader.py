@@ -1,44 +1,39 @@
+from .file_loader import FileLoader
 from docx import Document
-from loaders.file_loader import FileLoader
 import logging
-import sys  # Import sys for using sys.exit()
+import sys
 
 class DOCXLoader(FileLoader):
     """
-    Concrete implementation of FileLoader for handling DOCX files.
+    Loader class for DOCX files, inheriting from the FileLoader abstract base class.
+    Handles the specifics of validating and loading DOCX files.
+
+    Attributes:
+        file_extension (str): The file extension this loader handles, set to '.docx'.
     """
 
-    def validate_file(self, filepath):
+    file_extension = '.docx'
+
+    def load_file(self, filepath: str):
         """
-        Validates that the specified file path ends with '.docx'.
+        Validates and loads a DOCX file. If the file is valid, it opens and returns a Document object
+        for further manipulation. Errors during the opening of the file are caught and logged, and the
+        process is terminated.
 
         Args:
-        filepath (str): The path to the file to validate.
+            filepath (str): The path to the DOCX file that needs to be loaded.
+
+        Returns:
+            Document: A Document object from the python-docx library that represents the loaded DOCX file.
 
         Raises:
-        ValueError: If the file extension is not .docx.
+            SystemExit: If the DOCX file cannot be opened or read, the process will stop after logging the error.
         """
-        if not filepath.lower().endswith('.docx'):
-            logging.error(f"Invalid file format for DOCX loader: {filepath}")
-            sys.exit(f"Stopping the process due to invalid file format for DOCX loader: {filepath}")
-        print(f"Validated DOCX file: {filepath}")
-    
-    def load_file(self, filepath):
-        """
-        Loads a DOCX file and returns a Document object.
-
-        Args:
-        filepath (str): The path to the file to load.
-
-        Raises:
-        IOError: If the file cannot be opened or read.
-        """
-        try:
-            self.validate_file(filepath)
-            doc = Document(filepath)
-            print(f"Loaded DOCX file: {filepath}")
-            return doc
-        except Exception as e:
-            logging.error(f"Unable to open or read the DOCX file due to corruption or other issues: {e}")
-            sys.exit(f"Stopping the process due to a critical error with the file: {filepath}")
-
+        if self.validate_file(filepath):  # Utilizes the validate_file method from the abstract base class.
+            try:
+                doc = Document(filepath)  # Attempts to open and read the DOCX file.
+                print(f"Loaded DOCX file: {filepath}")
+                return doc
+            except Exception as e:
+                logging.error(f"Unable to open or read the DOCX file: {e}")
+                sys.exit(f"Stopping the process due to a critical error with the DOCX file: {filepath}")
