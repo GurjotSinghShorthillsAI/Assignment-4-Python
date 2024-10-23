@@ -44,8 +44,3 @@ class FileLoader(ABC):
             NotImplementedError: If the subclass does not implement this method.
         """
         raise NotImplementedError("Load method not implemented.")
-
-
-    @abstractmethod
-    def load_file(self, filepath: str):
-        pass
