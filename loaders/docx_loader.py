@@ -1,7 +1,5 @@
 from .file_loader import FileLoader
 from docx import Document
-import logging
-import sys
 
 class DOCXLoader(FileLoader):
     """
@@ -14,26 +12,20 @@ class DOCXLoader(FileLoader):
 
     file_extension = '.docx'
 
-    def load_file(self, filepath: str):
+    def process_file(self, filepath: str):
         """
-        Validates and loads a DOCX file. If the file is valid, it opens and returns a Document object
-        for further manipulation. Errors during the opening of the file are caught and logged, and the
-        process is terminated.
+        Loads a DOCX file after validation. If the file is valid, it opens and returns
+        a Document object from the python-docx library.
 
         Args:
             filepath (str): The path to the DOCX file that needs to be loaded.
 
         Returns:
-            Document: A Document object from the python-docx library that represents the loaded DOCX file.
+            Document: A Document object representing the loaded DOCX file.
 
         Raises:
-            SystemExit: If the DOCX file cannot be opened or read, the process will stop after logging the error.
+            SystemExit: If the DOCX file cannot be opened or read, logs the error and stops the process.
         """
-        if self.validate_file(filepath):  # Utilizes the validate_file method from the abstract base class.
-            try:
-                doc = Document(filepath)  # Attempts to open and read the DOCX file.
-                print(f"Loaded DOCX file: {filepath}")
-                return doc
-            except Exception as e:
-                logging.error(f"Unable to open or read the DOCX file: {e}")
-                sys.exit(f"Stopping the process due to a critical error with the DOCX file: {filepath}")
+        doc = Document(filepath)  # Attempts to open and read the DOCX file.
+        print(f"Loaded DOCX file: {filepath}")
+        return doc

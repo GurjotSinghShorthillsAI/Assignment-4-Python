@@ -1,6 +1,5 @@
 from .file_loader import FileLoader
 from PyPDF2 import PdfReader
-import sys
 
 class PDFLoader(FileLoader):
     """
@@ -13,7 +12,7 @@ class PDFLoader(FileLoader):
 
     file_extension = '.pdf'
 
-    def load_file(self, filepath: str):
+    def process_file(self, filepath: str):
         """
         Validates and loads a PDF file. If the file is valid, it opens and returns a PdfReader object
         for further manipulation. If there are issues opening the file, the process is terminated.
@@ -28,10 +27,6 @@ class PDFLoader(FileLoader):
             SystemExit: If the PDF file cannot be opened or read due to corruption or other issues, the process
                         will stop after logging the error.
         """
-        if self.validate_file(filepath):  # Utilizes the validate_file method from the abstract base class.
-            try:
-                reader = PdfReader(filepath)  # Attempts to open and read the PDF file.
-                print(f"Loaded PDF file: {filepath}")
-                return reader
-            except Exception:
-                sys.exit(f"Unable to open or read the PDF file due to corruption or other issues")
+        reader = PdfReader(filepath)  # Attempts to open and read the PDF file.
+        print(f"Loaded PDF file: {filepath}")
+        return reader

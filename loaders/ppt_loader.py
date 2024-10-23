@@ -1,7 +1,5 @@
 from .file_loader import FileLoader
 from pptx import Presentation
-import logging
-import sys
 
 class PPTLoader(FileLoader):
     """
@@ -14,26 +12,20 @@ class PPTLoader(FileLoader):
 
     file_extension = '.pptx'
 
-    def load_file(self, filepath: str):
+    def process_file(self, filepath: str):
         """
-        Validates and loads a PPTX file. If the file is valid, it opens and returns a Presentation object
-        for further manipulation. Errors during the file opening are caught and logged, leading to termination
-        of the process.
+        Loads a PPTX file after validation. If the file is valid, it opens and returns
+        a Presentation object from the python-pptx library for further manipulation.
 
         Args:
             filepath (str): The path to the PPTX file that needs to be loaded.
 
         Returns:
-            Presentation: A Presentation object from the python-pptx library that represents the loaded PPTX file.
+            Presentation: A Presentation object representing the loaded PPTX file.
 
         Raises:
-            SystemExit: If the PPTX file cannot be opened or read, the process will stop after logging the error.
+            SystemExit: If the PPTX file cannot be opened or read, logs the error and stops the process.
         """
-        if self.validate_file(filepath):  # Utilizes the inherited validate_file method to check file extension.
-            try:
-                ppt = Presentation(filepath)  # Attempts to open and read the PPTX file.
-                print(f"Loaded PPTX file: {filepath}")
-                return ppt
-            except Exception as e:
-                logging.error(f"Unable to open or read the PPT file: {e}")
-                sys.exit(f"Stopping the process due to a critical error with the PPT file: {filepath}")
+        ppt = Presentation(filepath)  # Attempts to open and read the PPTX file.
+        print(f"Loaded PPTX file: {filepath}")
+        return ppt
